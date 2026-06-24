@@ -1,8 +1,11 @@
 import { useMemo, useState } from "react";
-import { useQuery } from "@tanstack/react-query";
+import {
+  useQuery,
+  useQueryClient,
+} from "@tanstack/react-query";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { getAllUsers } from "@/lib/api";
+import { getAllUsers, deleteUser } from "@/lib/api";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -12,10 +15,12 @@ import {
   DialogDescription,
   DialogFooter,
 } from "@/components/ui/dialog";
+import {toast} from "sonner";
 
 /** Sucht Mitarbeiter:in + Aufgabe und weist sie zu (POST /tasks/assign). */
 export function DeleteUserForm() {
   const usersQ = useQuery({ queryKey: ["all-users"], queryFn: getAllUsers });
+  const queryClient = useQueryClient();
   
   const [userSearch, setUserSearch] = useState("");
   const [selectedUserId, setSelectedUserId] = useState<number | null>(null);
@@ -37,6 +42,38 @@ export function DeleteUserForm() {
   );
   const [confirmOpen, setConfirmOpen] = useState(false);
 
+
+  async function handleDelete() {
+
+    if (!selectedUserId) {
+        return;
+    }
+
+    try {
+
+        await deleteUser(selectedUserId);
+
+        toast.success(
+        "Benutzer erfolgreich gelöscht"
+        );
+
+        await queryClient.invalidateQueries({
+        queryKey: ["all-users"],
+        });
+
+        setConfirmOpen(false);
+        setSelectedUserId(null);
+        setUserSearch("");
+
+    } catch (err) {
+
+        toast.error(
+        err instanceof Error
+            ? err.message
+            : "Löschen fehlgeschlagen"
+        );
+    }
+    }
 
 
   return (
@@ -114,7 +151,7 @@ export function DeleteUserForm() {
                 </Button>
 
                 <Button
-                    onClick={() => setConfirmOpen(false)}
+                    onClick={handleDelete}
                 >
                     Löschen
                 </Button>

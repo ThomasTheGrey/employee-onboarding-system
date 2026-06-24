@@ -161,5 +161,56 @@ router.post("/", async (req, res) => {
 
 });
 
+// User löschen
+router.delete("/:id", async (req, res) => {
+
+    const userId = req.params.id;
+
+    try {
+
+        const result = await pool.query(
+
+            `
+            DELETE FROM users
+            WHERE id = $1
+            RETURNING id
+            `,
+
+            [userId]
+        );
+
+        if (result.rowCount === 0) {
+
+            return res.status(404).json({
+
+                message: "User nicht gefunden"
+            });
+        }
+
+        res.json({
+
+            message: "User gelöscht"
+        });
+
+    } catch(error){
+
+        console.error(error);
+
+        if(error.code === "23503"){
+
+            return res.status(409).json({
+
+                message:
+                    "Benutzer ist noch als Ansprechpartner einer Abteilung eingetragen."
+            });
+        }
+
+        res.status(500).send(
+            "Fehler beim Löschen"
+        );
+    }
+});
+
+
 // Router exportieren
 module.exports = router;

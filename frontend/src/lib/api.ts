@@ -94,3 +94,10 @@ export const createUser = (payload: {
     method: "POST",
     body: JSON.stringify(payload),
   });
+
+export const deleteUser = (userId: number) =>
+  request<void>(`/users/${userId}`, {
+    method: "DELETE",
+  });
+
+
