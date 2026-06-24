@@ -9,6 +9,7 @@ import { ShieldAlert } from "lucide-react";
 import { CreateUserForm } from "./CreateUserForm";
 import { CreateTaskForm } from "./CreateTaskForm";
 import { AssignTaskPanel } from "./AssignTaskPanel";
+import { DeleteUserForm } from "./DeleteUserForm";
 import type { Role } from "@/lib/types";
 
 interface Props {
@@ -26,10 +27,11 @@ export function AdminPanel({ currentUserId, requestingRole }: Props) {
       </header>
 
       <Tabs defaultValue="user" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="user">Nutzer</TabsTrigger>
           <TabsTrigger value="task">Aufgabe</TabsTrigger>
           <TabsTrigger value="assign">Zuweisen</TabsTrigger>
+          <TabsTrigger value="delete">Löschen</TabsTrigger>
         </TabsList>
 
         <TabsContent value="user" className="pt-6">
@@ -42,6 +44,10 @@ export function AdminPanel({ currentUserId, requestingRole }: Props) {
 
         <TabsContent value="assign" className="pt-6">
           <AssignTaskPanel />
+        </TabsContent>
+
+        <TabsContent value="delete" className="pt-6">
+          <DeleteUserForm />
         </TabsContent>
       </Tabs>
     </Card>
