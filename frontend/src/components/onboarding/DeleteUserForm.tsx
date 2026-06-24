@@ -4,6 +4,14 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { getAllUsers } from "@/lib/api";
 import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog";
 
 /** Sucht Mitarbeiter:in + Aufgabe und weist sie zu (POST /tasks/assign). */
 export function DeleteUserForm() {
@@ -27,6 +35,7 @@ export function DeleteUserForm() {
   const selectedUser = usersQ.data?.find(
     (u) => u.id === selectedUserId
   );
+  const [confirmOpen, setConfirmOpen] = useState(false);
 
 
 
@@ -80,9 +89,39 @@ export function DeleteUserForm() {
 
         <Button
             disabled={!selectedUserId}
+            onClick={() => setConfirmOpen(true)}
         >
             Benutzer löschen
         </Button>
+
+        <Dialog open={confirmOpen} onOpenChange={setConfirmOpen}>
+            <DialogContent>
+                <DialogHeader>
+                <DialogTitle>Benutzer löschen</DialogTitle>
+
+                <DialogDescription>
+                    Soll {selectedUser?.firstname} {selectedUser?.lastname}
+                    wirklich gelöscht werden?
+                </DialogDescription>
+                </DialogHeader>
+
+                <DialogFooter>
+                <Button
+                    variant="outline"
+                    onClick={() => setConfirmOpen(false)}
+                >
+                    Abbrechen
+                </Button>
+
+                <Button
+                    onClick={() => setConfirmOpen(false)}
+                >
+                    Löschen
+                </Button>
+                </DialogFooter>
+            </DialogContent>
+            </Dialog>
+
     </div>
 
 
