@@ -12,8 +12,7 @@ const bcrypt = require("bcrypt");
 
 // Login Route
 router.post("/", async (req, res) => {
-    console.log("CHECK 4: POST /login erreicht");
-    console.log("CHECK 5:", req.body);
+
     // Daten aus Request holen
     const { email, password } = req.body;
 

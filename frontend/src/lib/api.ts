@@ -44,7 +44,7 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
 export const login = (email: string, password: string) => {
   const payload = { email, password };
 
-  console.log("CHECK API:", payload);
+
 
   return request<LoginResponse>("/login", {
     method: "POST",

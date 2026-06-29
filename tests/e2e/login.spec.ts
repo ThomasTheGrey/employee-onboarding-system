@@ -8,7 +8,7 @@ test("TC-001 Benutzer kann sich erfolgreich anmelden", async ({ page }) => {
     await loginPage.open();
   
         
-    await loginPage.login(
+    await loginPage.loginLikeHuman(
         "herrschmidt@gmx.de",
         "Pass123"
     );

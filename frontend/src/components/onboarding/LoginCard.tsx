@@ -26,7 +26,7 @@ export function LoginCard({ onLogin }: Props) {
     setLoading(true);
     try {
       
-      console.log("CHECK 6:", { email, password });
+
       const { user } = await login(email, password);
       onLogin(user);
     } catch (err) {
@@ -81,7 +81,7 @@ export function LoginCard({ onLogin }: Props) {
                 value={email}
 //                onChange={(e) => setEmail(e.target.value)}
 onChange={(e) => {
-  console.log("CHECK 7 email:", e.target.value);
+
   setEmail(e.target.value);
 }}
 
