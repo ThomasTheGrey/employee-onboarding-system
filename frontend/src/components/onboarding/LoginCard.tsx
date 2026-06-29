@@ -19,10 +19,14 @@ export function LoginCard({ onLogin }: Props) {
   const [loading, setLoading] = useState(false);
 
   async function handleSubmit(e: FormEvent) {
+
     e.preventDefault();
+
     setError(null);
     setLoading(true);
     try {
+      
+      console.log("CHECK 6:", { email, password });
       const { user } = await login(email, password);
       onLogin(user);
     } catch (err) {
@@ -75,7 +79,12 @@ export function LoginCard({ onLogin }: Props) {
                 autoComplete="email"
                 required
                 value={email}
-                onChange={(e) => setEmail(e.target.value)}
+//                onChange={(e) => setEmail(e.target.value)}
+onChange={(e) => {
+  console.log("CHECK 7 email:", e.target.value);
+  setEmail(e.target.value);
+}}
+
                 aria-invalid={!!error}
                 aria-describedby={error ? "login-error" : undefined}
               />
@@ -89,7 +98,11 @@ export function LoginCard({ onLogin }: Props) {
                 autoComplete="current-password"
                 required
                 value={password}
-                onChange={(e) => setPassword(e.target.value)}
+//                onChange={(e) => setPassword(e.target.value)}
+onChange={(e) => {
+  console.log("CHECK 7 password:", e.target.value);
+  setPassword(e.target.value);
+}}
                 aria-invalid={!!error}
                 aria-describedby={error ? "login-error" : undefined}
               />
