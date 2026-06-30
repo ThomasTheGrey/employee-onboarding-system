@@ -1,5 +1,5 @@
 import { test, expect } from "@playwright/test";
-import { LoginPage } from "../pages/LoginPage";
+import { LoginPage } from "../../pages/LoginPage";
 
 test("TC-001 Benutzer kann sich erfolgreich anmelden", async ({ page }) => {
 
